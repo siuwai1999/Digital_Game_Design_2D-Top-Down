@@ -4,31 +4,44 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    public float moveSpeed = 0.01f;
+    public float MoveSpeed = 5;
+
+    public Vector2 LookDirection;
+    public Vector2 Position;
+    public Vector2 PlayerMove;
+
     public Animator RubyAnim;
+    public Rigidbody2D Rigi;
 
 
     // Start is called before the first frame update
     void Start()
     {
         RubyAnim = GetComponent<Animator>();
+        Rigi = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Vector2 rubyMove = transform.position;
-        float PlayerMoveX = Input.GetAxis("Horizontal");
-        float PlayerMoveY = Input.GetAxis("Vertical");
-        RubyAnim.SetFloat("MoveX", PlayerMoveX);
-        RubyAnim.SetFloat("MoveY", PlayerMoveY);
-        rubyMove.x += PlayerMoveX * moveSpeed;
-        rubyMove.y += PlayerMoveY * moveSpeed;
-        transform.position = rubyMove;
+        Position = transform.position;
+        float Horizontal = Input.GetAxis("Horizontal");
+        float Vertical = Input.GetAxis("Vertical");
 
-        if (PlayerMoveX == 0 && PlayerMoveY == 0 )
+        PlayerMove = new Vector2(Horizontal, Vertical);
+
+        if (!Mathf.Approximately(PlayerMove.x,0) || !Mathf.Approximately(PlayerMove.y, 0))    
         {
-            RubyAnim.SetTrigger("Idle");
-        };
+            LookDirection = PlayerMove;
+            LookDirection.Normalize();
+        }
+
+        RubyAnim.SetFloat("LookX", LookDirection.x);
+        RubyAnim.SetFloat("LookY", LookDirection.y);
+        RubyAnim.SetFloat("Speed", PlayerMove.magnitude);
+
+        Position += MoveSpeed * PlayerMove * Time.deltaTime;
+        print("方向" + LookDirection + "位置" + Position + "速度" + PlayerMove);
+        Rigi.MovePosition(Position);
     }
 }
