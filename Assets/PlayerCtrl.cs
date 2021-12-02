@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    public float MoveSpeed = 5;
+    [Header("最大HP")]
+    public int MaxHP = 10;
+
+    [Header("當前HP")]
+    public int HP = 10;
+
+    [Header("移動速度")]
+    public float MoveSpeed = 6;
 
     public Vector2 LookDirection;
     public Vector2 Position;
@@ -13,10 +21,17 @@ public class PlayerCtrl : MonoBehaviour
     public Animator RubyAnim;
     public Rigidbody2D Rigi;
 
+    public void AddHP(int Amout)
+    {
+        HP += Amout;
+        if (HP > MaxHP) { HP = MaxHP; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        HP = MaxHP;
+        
         RubyAnim = GetComponent<Animator>();
         Rigi = GetComponent<Rigidbody2D>();
     }
@@ -41,7 +56,23 @@ public class PlayerCtrl : MonoBehaviour
         RubyAnim.SetFloat("Speed", PlayerMove.magnitude);
 
         Position += MoveSpeed * PlayerMove * Time.deltaTime;
-        print("方向" + LookDirection + "位置" + Position + "速度" + PlayerMove);
         Rigi.MovePosition(Position);
+
     }
+
+    void debug()
+    {
+        Debug.Log("方向" + LookDirection + "位置" + Position + "速度" + PlayerMove + "\n" + " 當前HP " + HP);
+    }
+
+    void Update()
+    {
+        debug();
+
+        if (HP <= 0)
+        {
+            SceneManager.LoadScene("Dead");
+        }
+    }
+
 }
