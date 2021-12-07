@@ -18,6 +18,8 @@ public class PlayerCtrl : MonoBehaviour
     public Vector2 Position;
     public Vector2 PlayerMove;
 
+    public GameObject proj;
+
     public Animator RubyAnim;
     public Rigidbody2D Rigi;
 
@@ -25,6 +27,15 @@ public class PlayerCtrl : MonoBehaviour
     {
         HP += Amout;
         if (HP > MaxHP) { HP = MaxHP; }
+    }
+
+    public void Launch()
+    {
+        GameObject project = Instantiate(proj,Rigi.position,Quaternion.identity);
+        Bullet bullet = project.GetComponent<Bullet>();
+        bullet.Launch(LookDirection, 300);
+        print("1231231");
+        //rubyanim
     }
 
     // Start is called before the first frame update
@@ -67,11 +78,16 @@ public class PlayerCtrl : MonoBehaviour
 
     void Update()
     {
-        debug();
+
 
         if (HP <= 0)
         {
             SceneManager.LoadScene("Dead");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Launch();
         }
     }
 
