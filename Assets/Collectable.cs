@@ -11,11 +11,14 @@ public class Collectable : MonoBehaviour
     [Header("粒子")]
     public GameObject Part;
 
+    public AudioClip AudioClip;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (Part != null) { Instantiate(Part, gameObject.transform.position, Quaternion.identity); }
         PlayerCtrl playerCtrl = collision.GetComponent<PlayerCtrl>();
         playerCtrl.AddHP(Number);
+        playerCtrl.PlauySound(AudioClip);
         print("撿取物件");
         if (Dest) { Destroy(gameObject); }
     }

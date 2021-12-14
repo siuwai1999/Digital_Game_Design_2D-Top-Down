@@ -19,6 +19,7 @@ public class PlayerCtrl : MonoBehaviour
     public Vector2 PlayerMove;
 
     public GameObject proj;
+    private AudioSource AudioSource;
 
     public Animator RubyAnim;
     public Rigidbody2D Rigi;
@@ -27,6 +28,11 @@ public class PlayerCtrl : MonoBehaviour
     {
         HP += Amout;
         if (HP > MaxHP) { HP = MaxHP; }
+    }
+
+    public void PlauySound(AudioClip audioClip)
+    {
+        AudioSource.PlayOneShot(audioClip);
     }
 
     public void Launch()
@@ -42,7 +48,7 @@ public class PlayerCtrl : MonoBehaviour
     void Start()
     {
         HP = MaxHP;
-        
+        AudioSource = GetComponent<AudioSource>();
         RubyAnim = GetComponent<Animator>();
         Rigi = GetComponent<Rigidbody2D>();
     }

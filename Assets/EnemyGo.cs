@@ -27,6 +27,8 @@ public class EnemyGo : MonoBehaviour
     //【關閉煙霧特效 1/2】：使用關閉特效機制
     public ParticleSystem smokeEffect;
 
+    public AudioClip AudioClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +106,7 @@ public class EnemyGo : MonoBehaviour
         {
             print("碰到敵人了，扣血(-1)");
             gogogo_13.AddHP(-1);
+            gogogo_13.PlauySound(AudioClip);
         }
     }
 

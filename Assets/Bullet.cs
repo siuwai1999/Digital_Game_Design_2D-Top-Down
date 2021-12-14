@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     //【擊中特效 1/2】
     public ParticleSystem hitEffect;
 
+
     // 當有使用 實例化生成函式 Instantiate() 就需要使用 Awake()
     void Awake()
     {
